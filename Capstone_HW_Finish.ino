@@ -101,30 +101,30 @@ void loop(){
     }
   }
   else if(data == '2'){
-    Serial.println("필터를 소독합니다.");
-    digitalWrite(led,HIGH);
-    delay(3000);
-    digitalWrite(led,LOW);
+    Serial.println("필터를 소독합니다."); // UV Led가 켜지기 전, 필터를 소독한다는 안내가 시리얼 모니터에 출력됩니다.
+    digitalWrite(led,HIGH); // UV Led가 켜집니다
+    delay(3000); // 3초 유지되다가
+    digitalWrite(led,LOW); // UV Led가 꺼집니다
   }
 
   // 7. 문자열 초기화----------------------------------------------------------------------------
   //data = 0; // data라는 문자열을 초기화
 
-  digitalWrite(sensor_led, LOW);
+  digitalWrite(sensor_led, LOW); //
   delayMicroseconds(sampling);
 
   dust_value = analogRead(dust_sensor); // 미세먼지 센서에서 값을 받아옴
 
   delayMicroseconds(waiting);
 
-  digitalWrite(sensor_led, HIGH);
-  delayMicroseconds(stop_time);
+  digitalWrite(sensor_led, HIGH); // 미세먼지 모듈의 led 켜기
+  delayMicroseconds(stop_time); // stop_time 시간 만큼 멈추기
 
   dustDensityug = (0.17*(dust_value * (5.0 / 1024))-0.1)*1000; // 미세먼지 센서에서 받아온 값을 ug/m^3로 변환
-  if(dustDensityug < min){
-    Serial.print("Dust Density [ug/m3]:");
-    Serial.println("0");
-    BT.print("0");
+  if(dustDensityug < min){ // 미세먼지값이 최솟값보다 적으면
+    Serial.print("Dust Density [ug/m3]:"); // 시리얼 모니터에
+    Serial.println("0"); // 0으로 출력
+    BT.print("0"); 
   }
   else if(dustDensityug > min && dustDensityug <= 35.0){
     Serial.print("Dust Density [ug/m3]:");
