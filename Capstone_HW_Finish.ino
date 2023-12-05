@@ -110,36 +110,36 @@ void loop(){
   // 7. 문자열 초기화----------------------------------------------------------------------------
   //data = 0; // data라는 문자열을 초기화
 
-  digitalWrite(sensor_led, LOW); //
-  delayMicroseconds(sampling);
+  //digitalWrite(sensor_led, LOW); // Led 끄기
+  delayMicroseconds(sampling); // 샘플링 시간동안 유지
 
   dust_value = analogRead(dust_sensor); // 미세먼지 센서에서 값을 받아옴
 
-  delayMicroseconds(waiting);
+  delayMicroseconds(waiting); // 너무 많은 데이터 입력을 피해주기 위해 잠시 딜레이
 
-  digitalWrite(sensor_led, HIGH); // 미세먼지 모듈의 led 켜기
-  delayMicroseconds(stop_time); // stop_time 시간 만큼 멈추기
+  //digitalWrite(sensor_led, HIGH); // 미세먼지 모듈의 led 켜기
+  delayMicroseconds(stop_time); 
 
   dustDensityug = (0.17*(dust_value * (5.0 / 1024))-0.1)*1000; // 미세먼지 센서에서 받아온 값을 ug/m^3로 변환
   if(dustDensityug < min){ // 미세먼지값이 최솟값보다 적으면
     Serial.print("Dust Density [ug/m3]:"); // 시리얼 모니터에
     Serial.println("0"); // 0으로 출력
-    BT.print("0"); 
+    BT.print("0"); // 앱에 0으로 출력
   }
-  else if(dustDensityug > min && dustDensityug <= 35.0){
+  /*else if(dustDensityug > min && dustDensityug <= 35.0){
     Serial.print("Dust Density [ug/m3]:");
     Serial.println(dustDensityug);
     BT.print(dustDensityug);
+  }*/
+  else if(dustDensityug > min && dustDensityug < max){ // 미세먼지 값이 최솟값보다 크고, 최댓값보다 작으면 
+     Serial.print("Dust Density [ug/m3]:"); // 시리얼 모니터에
+    Serial.println(dustDensityug); // 미세먼지값 출력
+    BT.print(dustDensityug); // 앱에 미세먼지값 출력
   }
-  else if(dustDensityug > 35.0 && dustDensityug < 75){
-     Serial.print("Dust Density [ug/m3]:");
-    Serial.println(dustDensityug);
-    BT.print(dustDensityug);
-  }
-  else if(dustDensityug >= max){
-    Serial.print("Dust Density [ug/m3]:");
-    Serial.println("100");
-    BT.print("100");
+  else if(dustDensityug >= max){ // 최댓값보다 크거나 같으면
+    Serial.print("Dust Density [ug/m3]:"); // 시리얼 모니터에
+    Serial.println("100"); // 100으로 출력
+    BT.print("100"); // 앱에 100으로 출력
   }
 
   delay(3000);
