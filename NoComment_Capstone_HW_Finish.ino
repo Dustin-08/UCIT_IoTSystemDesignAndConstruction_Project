@@ -124,12 +124,12 @@ void loop(){
     Serial.println("0");
     BT.print("0");
   }
-  else if(dustDensityug > min && dustDensityug <= 35.0){
+  /*else if(dustDensityug > min && dustDensityug <= 35.0){
     Serial.print("Dust Density [ug/m3]:");
     Serial.println(dustDensityug);
     BT.print(dustDensityug);
-  }
-  else if(dustDensityug > 35.0 && dustDensityug < 75){
+  }*/
+  else if(dustDensityug > min && dustDensityug < max){
      Serial.print("Dust Density [ug/m3]:");
     Serial.println(dustDensityug);
     BT.print(dustDensityug);
